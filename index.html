@@ -821,16 +821,18 @@
       var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
 
       var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
-      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT);
+      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba","4H0U9B");
 
       var content = {
         message: commitMessage,
         content: btoa(xml_text)
       };
 
+      let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH;
+
       fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
         headers: {
-          "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH
+          "Authorization": "Bearer " + authorizeFromAPIServer
         }
       })
         .then(response => response.json())
@@ -839,7 +841,7 @@
             return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
               method: "DELETE",
               headers: {
-                "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH,
+                "Authorization": "Bearer " + authorizeFromAPIServer,
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
@@ -855,7 +857,7 @@
           return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
             method: "PUT",
             headers: {
-              "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH,
+              "Authorization": "Bearer " + authorizeFromAPIServer,
               "Content-Type": "application/json"
             },
             body: JSON.stringify(content)
