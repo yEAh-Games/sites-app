@@ -832,7 +832,7 @@
 
       fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
         headers: {
-          "Authorization": "Bearer " + authorizeFromAPIServer
+          "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
         }
       })
         .then(response => response.json())
@@ -841,7 +841,7 @@
             return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
               method: "DELETE",
               headers: {
-                "Authorization": "Bearer " + authorizeFromAPIServer,
+                "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
@@ -857,7 +857,7 @@
           return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
             method: "PUT",
             headers: {
-              "Authorization": "Bearer " + authorizeFromAPIServer,
+              "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
               "Content-Type": "application/json"
             },
             body: JSON.stringify(content)
