@@ -789,7 +789,7 @@
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var xml_text = Blockly.Xml.domToText(xml);
 
-  fetch("https://apiauth.yeahgamesdevs.workers.dev/")
+  fetch("https://authorize.api.yeahgames.net")
     .then(response => response.text())
     .then(accessToken => {
 
