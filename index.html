@@ -828,7 +828,7 @@
         content: btoa(xml_text)
       };
 
-      let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B");
+      let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
       fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
         headers: {
