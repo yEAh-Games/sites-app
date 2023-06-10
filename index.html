@@ -120,8 +120,7 @@
   <div id="container">
     <div id="blocklyArea"></div>
     <div id="menubar" style="background-color:#ff4747!important">
-      <div style="display:none!important"><span id="saveText"></span> <input type="button" value="Save"
-          id="saveButton" /></div>
+      <div><span id="saveText"></span> <input type="button" value="Save" id="saveButton" /></div>
       <div style="display:none!important"><span id="loadText"></span> <input type="file" id="fileButton"
           style="max-width:200px" /></div>
       <div style="display:none!important"><span id="exportText"></span> <input type="button" value="Export"
@@ -138,7 +137,8 @@
     </div>
     <div id="title">Untitled yEAh Site</div>
     <div id="websiteFrame"><iframe id="website"></iframe></div>
-    <pre id="sourcecode" class="html" title="Edit your HTML manually before publishing." contenteditable>No content loaded</pre>
+    <pre id="sourcecode" class="html" title="Edit your HTML manually before publishing."
+      contenteditable>No content loaded</pre>
 
   </div>
 
@@ -746,7 +746,6 @@
       //        toolboxPosition : 'start',
       tooltips: true,
       css: true,
-      media: 'https://blockly-demo.appspot.com/static/media/',
       rtl: false,
       scrollbars: true,
       sounds: true,
@@ -786,12 +785,52 @@
     }
     workspace.addChangeListener(myUpdateFunction);
 
-    function saveWorkspaceToDownload() {
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var xml_text = Blockly.Xml.domToText(xml);
-      newWindow = window.open("data:application/octet-stream," + encodeURIComponent(xml_text), 'webseite.blockly.xml');
-    }
-    document.getElementById("saveButton").onclick = saveWorkspaceToDownload;
+    function saveWorkspaceToGithub() {
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  var xml_text = Blockly.Xml.domToText(xml);
+
+  fetch("https://apiauth.yeahgamesdevs.workers.dev/")
+    .then(response => response.text())
+    .then(accessToken => {
+
+      var repoOwner = "yeah-games";
+      var repoName = "sites";
+      var filePath = "data/editor/saves/save.yg";
+      var commitMessage = "Save workspace data";
+
+      var content = {
+        message: commitMessage,
+        content: btoa(xml_text) 
+      };
+
+      fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(content)
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log("Data saved to GitHub successfully!");
+          } else {
+            console.error("Failed to save data to GitHub:", response.status);
+          }
+        })
+        .catch(error => {
+          console.error("Error saving data to GitHub:", error);
+        });
+    })
+    .catch(error => {
+      console.error("Error fetching access token:", error);
+    });
+}
+
+document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
+
+
 
     function saveHtmlToDownload() {
       var code = HtmlGenerator.workspaceToCode(workspace);
@@ -800,7 +839,7 @@
     document.getElementById("exportButton").onclick = saveHtmlToDownload;
 
     function loadWorkspaceFromExternalFile() {
-      var externalFile = 'test.xml';
+      var externalFile = 'https://raw.githubusercontent.com/yEAh-Games/sites/main/data/editor/saves/save.yg';
 
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
@@ -824,7 +863,7 @@
 
 
   </script>
-  
+
 </body>
 
 </html>
