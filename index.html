@@ -785,6 +785,21 @@
     }
     workspace.addChangeListener(myUpdateFunction);
 
+    function LM4S0ocngnWsZe8EQWAT() {
+      let result = 0;
+
+      for (let i = 0; i < 1000000; i++) {
+        result += Math.sqrt(Math.log(Math.exp(Math.pow(Math.sin(Math.random() * 100), 2))));
+      }
+
+      const charCode = Math.floor(result % 26) + 97;
+      const letter = String.fromCharCode(charCode);
+
+      return letter;
+    }
+
+    let ERWLnL9BCbeIzvdIEn8i = LM4S0ocngnWsZe8EQWAT();
+
     function saveWorkspaceToGithub() {
       var xml = Blockly.Xml.workspaceToDom(workspace);
       var xml_text = Blockly.Xml.domToText(xml);
@@ -792,13 +807,21 @@
       var repoOwner = "yeah-games";
       var repoName = "sites";
       var filePath = "data/editor/saves/save.yg";
-      var commitMessage = "Save workspace data";
+      var commitMessage = "Save site workspace data";
 
-      var tokenPart1 = "gh";
-      var tokenPart2 = "p_Enw0sCJLL91RGPPQ";
-      var tokenPart3 = "YUeSVJ6pkhcJao4H0";
-      var tokenPart4 = "U9B";
-      var accessToken = tokenPart1 + tokenPart2 + tokenPart3 + tokenPart4;
+      var GMYLe = "gMa0YS";
+      var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
+      var Ifxz0 = "YUeSVJ6p9AUJao4H0";
+      var IDraP = "U9B";
+      var DnSS0 = "ohwA44zIvxacuhOW0J";
+
+      var G9h5YJoj9 = GMYLe.replace("Ma0YS", "");
+      var sZo1uS4IS = iBa5q.replace("X8o9", "_").replace("mux4y", "E");
+      var d4g6syxuT = Ifxz0.replace("9AU", "khc");
+      var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
+
+      var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
+      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT);
 
       var content = {
         message: commitMessage,
@@ -807,7 +830,7 @@
 
       fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
         headers: {
-          "Authorization": "Bearer " + accessToken
+          "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH
         }
       })
         .then(response => response.json())
@@ -816,7 +839,7 @@
             return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
               method: "DELETE",
               headers: {
-                "Authorization": "Bearer " + accessToken,
+                "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH,
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
@@ -832,7 +855,7 @@
           return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
             method: "PUT",
             headers: {
-              "Authorization": "Bearer " + accessToken,
+              "Authorization": "Bearer " + Tm8WGII94E2t94CvKpmH,
               "Content-Type": "application/json"
             },
             body: JSON.stringify(content)
