@@ -117,10 +117,15 @@
 </head>
 
 <body>
-  <div id="overlay" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+  <div id="overlay" style="background-color:#0c0e14!important"
+    class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white p-6 rounded-lg">
       <h2 class="text-2xl font-bold mb-4" id="site-name"></h2>
       <p class="text-lg" id="username"></p>
+      <button id="create-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Create Sites
+      </button>
+
     </div>
   </div>
 
@@ -739,58 +744,8 @@
   </xml>
   <script src="https://accounts.yeahgames.net/system/all/sha256.js"></script>
   <script src="https://accounts.yeahgames.net/system/validation/main.js"></script>
-  <script>// app.js
+  <script src="/system/main.js">
 
-    // Function to display the overlay with site names and usernames
-    function displayOverlay(siteName, username) {
-      const overlay = document.getElementById('overlay');
-      const siteNameElement = document.getElementById('site-name');
-      const usernameElement = document.getElementById('username');
-
-      siteNameElement.textContent = siteName;
-      usernameElement.textContent = username;
-
-      overlay.style.display = 'flex';
-    }
-
-    // Function to fetch the user's sites from sites.yeahgames.net/data/sites.json
-    function fetchUserSites(username) {
-      return fetch('https://sites.yeahgames.net/data/sites.json')
-        .then(response => response.json())
-        .then(data => {
-          const userSites = data.find(user => user.hasOwnProperty(username));
-
-          if (userSites) {
-            const siteNames = userSites[username].s;
-
-            // Display the overlay for each site
-            siteNames.forEach(siteName => {
-              displayOverlay(siteName, username);
-            });
-          } else {
-            console.error('User not found or has no sites');
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching user sites:', error);
-        });
-    }
-
-    // Call the necessary functions after the DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      // Fetch validated user data from your validation script
-      const validatedUserData = validateUserDataFromCookie();
-
-      if (validatedUserData) {
-        const { username } = validatedUserData;
-
-        // Fetch the user's sites and display the overlay
-        fetchUserSites(username);
-      } else {
-        console.log('User data validation failed. Redirecting to login...');
-        redirectToLogin(true);
-      }
-    });
   </script>
   <script>
     var toolbox = document.getElementById("toolbox");
