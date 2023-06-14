@@ -112,11 +112,18 @@
   <script src="html_blocks.js"></script>
   <script src="blockly/blocks_compressed.js"></script>
   <script src="blockly/javascript_compressed.js"></script>
-
+  <script src="//cdn.tailwindcss.com"></script>
 </head>
 </head>
 
 <body>
+  <div id="overlay" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4" id="site-name"></h2>
+      <p class="text-lg" id="username"></p>
+    </div>
+  </div>
+
   <div id="container">
     <div id="blocklyArea"></div>
     <div id="menubar" style="background-color:#ff4747!important">
@@ -730,7 +737,61 @@
       </statement>
     </block>
   </xml>
+  <script src="https://accounts.yeahgames.net/system/all/sha256.js"></script>
+  <script src="https://accounts.yeahgames.net/system/validation/main.js"></script>
+  <script>// app.js
 
+    // Function to display the overlay with site names and usernames
+    function displayOverlay(siteName, username) {
+      const overlay = document.getElementById('overlay');
+      const siteNameElement = document.getElementById('site-name');
+      const usernameElement = document.getElementById('username');
+
+      siteNameElement.textContent = siteName;
+      usernameElement.textContent = username;
+
+      overlay.style.display = 'flex';
+    }
+
+    // Function to fetch the user's sites from sites.yeahgames.net/data/sites.json
+    function fetchUserSites(username) {
+      return fetch('https://sites.yeahgames.net/data/sites.json')
+        .then(response => response.json())
+        .then(data => {
+          const userSites = data.find(user => user.hasOwnProperty(username));
+
+          if (userSites) {
+            const siteNames = userSites[username].s;
+
+            // Display the overlay for each site
+            siteNames.forEach(siteName => {
+              displayOverlay(siteName, username);
+            });
+          } else {
+            console.error('User not found or has no sites');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user sites:', error);
+        });
+    }
+
+    // Call the necessary functions after the DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fetch validated user data from your validation script
+      const validatedUserData = validateUserDataFromCookie();
+
+      if (validatedUserData) {
+        const { username } = validatedUserData;
+
+        // Fetch the user's sites and display the overlay
+        fetchUserSites(username);
+      } else {
+        console.log('User data validation failed. Redirecting to login...');
+        redirectToLogin(true);
+      }
+    });
+  </script>
   <script>
     var toolbox = document.getElementById("toolbox");
     var blocklyArea = document.getElementById('blocklyArea');
@@ -821,7 +882,7 @@
       var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
 
       var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
-      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba","4H0U9B");
+      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba", "4H0U9B");
 
       var content = {
         message: commitMessage,
