@@ -55,7 +55,7 @@ function displayOverlay(siteName, username) {
   
   // Function to redirect to the login page
   function redirectToLogin() {
-    window.location.href = 'https://accounts.yeahgames.net/login';
+    window.location.href = 'https://accounts.yeahgames.net/login?continue=' + window.location.href;
   }
   
   // Call the necessary functions after the DOM is loaded
