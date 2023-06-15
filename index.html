@@ -119,6 +119,7 @@
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
+    cursor:pointer;
   }
   </style>
 </head>
@@ -128,7 +129,7 @@
   <div id="overlay" style="background-color:#0c0e14!important;z-index:999999!important" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white p-6 rounded-lg">
       <div id="site-list"></div>
-      <a id="create-button" href="?create=true"><button style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <a style="z-index:99999999999999!important" id="create-button" href="?create=true"><button style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Create a site
       </button></a>
     </div>

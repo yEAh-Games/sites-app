@@ -63,8 +63,8 @@ function fetchUserSites(username) {
             overlay.appendChild(bubble);
           });
         } else {
-          // User has sites, but the site query string is not empty
-          console.error('Site query string is not empty');
+          const overlay = document.getElementById('overlay');
+          overlay.style.display = 'none'; // Hide the overlay
         }
       } else {
         // User is logged in but doesn't have any sites
@@ -75,6 +75,7 @@ function fetchUserSites(username) {
       console.error('Error fetching user sites:', error);
     });
 }
+
 
 // Function to redirect to the login page
 function redirectToLogin() {
