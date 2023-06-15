@@ -50,20 +50,22 @@ function fetchUserSites(username) {
     .then(data => {
       const userSites = data.find(user => user.hasOwnProperty(username));
 
-      if (userSites && isSiteQueryStringEmpty()) {
-        const siteNames = userSites[username].s;
+      if (userSites) {
+        if (isSiteQueryStringEmpty()) {
+          const siteNames = userSites[username].s;
 
-        const overlay = document.getElementById('overlay');
-        overlay.innerHTML = ''; // Clear the overlay
+          const overlay = document.getElementById('overlay');
+          overlay.innerHTML = ''; // Clear the overlay
 
-        // Create a bubble for each site
-        siteNames.forEach(siteName => {
-          const bubble = createBubble(siteName, username);
-          overlay.appendChild(bubble);
-        });
-      } else if (userSites) {
-        // User has sites but the site query string is not empty
-        console.error('Site query string is not empty');
+          // Create a bubble for each site
+          siteNames.forEach(siteName => {
+            const bubble = createBubble(siteName, username);
+            overlay.appendChild(bubble);
+          });
+        } else {
+          // User has sites, but the site query string is not empty
+          console.error('Site query string is not empty');
+        }
       } else {
         // User is logged in but doesn't have any sites
         displayCreateButton();
