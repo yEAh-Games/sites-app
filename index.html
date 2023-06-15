@@ -113,6 +113,14 @@
   <script src="blockly/blocks_compressed.js"></script>
   <script src="blockly/javascript_compressed.js"></script>
   <script src="//cdn.tailwindcss.com"></script>
+  <style>.bubble {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+  </style>
 </head>
 </head>
 
@@ -122,11 +130,10 @@
     <div class="bg-white p-6 rounded-lg">
       <h2 class="text-2xl font-bold mb-4" id="site-name"></h2>
       <p class="text-lg" id="username"></p>
-      <a id="create-button" href="?create=true"><button style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"></a>
-        Create a site
-      </button>
-
     </div>
+    <a id="create-button" href="?create=true"><button style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Create a site
+    </button></a>
   </div>
 
   <div id="container">
