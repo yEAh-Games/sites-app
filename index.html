@@ -128,15 +128,20 @@
 <body>
   <div id="overlay" style="background-color:#0c0e14!important;z-index:999999!important" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white p-6 rounded-lg">
-      <div id="site-list"></div>
-      <div id="create-form">
-        <input type="text" id="site-input" placeholder="Enter site name">
-        <button id="create-button" style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <form id="create-form" style="display: none;">
+        <label for="site-input">Site Name:</label>
+        <input type="text" id="site-input" placeholder="Enter a site name">
+        <button id="create-site-button">Create Site</button>
+      </form>
+      <a style="z-index:99999999999999!important" id="create-button" href="?create=true">
+        <button style="background-color: #ff4747!important;" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Create a site
         </button>
-      </div>
+      </a>
     </div>
   </div>
+  
+  
   
   
 

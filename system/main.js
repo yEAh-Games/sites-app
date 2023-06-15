@@ -113,27 +113,37 @@ function createSite() {
     return;
   }
 
-  const username = localStorage.getItem('username'); // Retrieve the username from localStorage
+  const accessToken = '<YOUR_GITHUB_ACCESS_TOKEN>'; // Replace with your GitHub access token for creating site repositories
+  const orgName = 'ysites';
+  const sitesRepoOwner = 'yeah-games';
+  const sitesRepoName = 'sites';
+  const sitesDataPath = 'data/sites.json';
+  const sitesDataUrl = `https://api.github.com/repos/${sitesRepoOwner}/${sitesRepoName}/contents/${sitesDataPath}`;
 
-  // Check if the site name already exists
-  fetch('https://yeah-games/sites/data/sites.json')
+  // Check if the site name already exists in the sites database
+  fetch(sitesDataUrl, {
+    headers: {
+      Authorization: `token ${accessToken}`
+    }
+  })
     .then(response => response.json())
     .then(data => {
-      const siteExists = data.some(user => user.hasOwnProperty(username) && user[username].s.includes(siteName));
+      const decodedContent = atob(data.content);
+      const sitesData = JSON.parse(decodedContent);
 
-      if (siteExists) {
+      const username = localStorage.getItem('username'); // Retrieve the username from localStorage
+
+      const userSites = sitesData.find(user => user.hasOwnProperty(username));
+
+      if (userSites && userSites[username].s.includes(siteName)) {
         alert('The site name already exists');
       } else {
         // Create the repository using the GitHub API
-        const accessToken = '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'; // Replace with your GitHub access token
-        const orgName = 'ysites';
-        const repoName = siteName;
+        const createRepoUrl = `https://api.github.com/orgs/${orgName}/repos`;
+        const createCnameUrl = `https://api.github.com/repos/${orgName}/${siteName}/contents/CNAME`;
         const cnameValue = `${siteName}.ysites.net`;
 
-        const createRepoUrl = `https://api.github.com/orgs/${orgName}/repos`;
-        const createCnameUrl = `https://api.github.com/repos/${orgName}/${repoName}/contents/CNAME`;
-
-        // Create the repository
+        // Create the repository under the ysites organization
         fetch(createRepoUrl, {
           method: 'POST',
           headers: {
@@ -141,7 +151,8 @@ function createSite() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            name: repoName
+            name: siteName,
+            org: orgName
           })
         })
           .then(response => {
@@ -165,35 +176,31 @@ function createSite() {
           })
           .then(response => {
             if (response.ok) {
-              // Update the sites database
-              const sitesUrl = 'https://yeah-games/sites/data/sites.json';
+              // Update the sites data in the sites repository
+              const newData = {
+                [username]: {
+                  s: userSites ? [...userSites[username].s, siteName] : [siteName]
+                }
+              };
 
-              return fetch(sitesUrl)
-                .then(response => response.json())
-                .then(data => {
-                  const user = data.find(user => user.hasOwnProperty(username));
+              // Encode the updated data and prepare the request body
+              const updatedContent = btoa(JSON.stringify([...sitesData, newData]));
+              const requestBody = {
+                message: 'Update sites data',
+                content: updatedContent,
+                sha: data.sha,
+                branch: 'main'
+              };
 
-                  if (user) {
-                    // User already has sites, add the new site to the array
-                    user[username].s.push(siteName);
-                  } else {
-                    // User doesn't have any sites, create a new entry
-                    data.push({
-                      [username]: {
-                        s: [siteName]
-                      }
-                    });
-                  }
-
-                  return fetch(sitesUrl, {
-                    method: 'PUT',
-                    headers: {
-                      Authorization: `token ${accessToken}`,
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                  });
-                });
+              // Write the updated sites data to the sites repository
+              return fetch(sitesDataUrl, {
+                method: 'PUT',
+                headers: {
+                  Authorization: `token ${accessToken}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+              });
             } else {
               throw new Error('Failed to create the CNAME file');
             }
@@ -212,6 +219,20 @@ function createSite() {
     });
 }
 
+// Function to display the create form
+function displayCreateForm() {
+  const createForm = document.getElementById('create-form');
+  createForm.style.display = 'block';
+}
+
+// Check if create=true is present in the URL param
+const params = new URLSearchParams(window.location.search);
+const createParam = params.get('create');
+
+if (createParam === 'true') {
+  displayCreateForm();
+}
+
 // Add event listener to the create button
-const createButton = document.getElementById('create-button');
-createButton.addEventListener('click', createSite);
+const createSiteButton = document.getElementById('create-site-button');
+createSiteButton.addEventListener('click', createSite);
