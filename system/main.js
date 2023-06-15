@@ -9,14 +9,28 @@ function createBubble(siteName, username) {
   const usernameElement = document.createElement('span');
   usernameElement.textContent = username;
 
-  bubble.appendChild(siteNameElement);
+  const siteLink = document.createElement('a');
+  siteLink.href = `?site=${siteName}`;
+  siteLink.appendChild(siteNameElement);
+
+  bubble.appendChild(siteLink);
   bubble.appendChild(usernameElement);
+
+  bubble.addEventListener('click', () => {
+    window.location.href = siteLink.href; // Redirect to the site URL
+    setTimeout(() => {
+      window.location.reload(); // Refresh the page to clear the overlay
+    }, 500); // Adjust the delay as needed
+  });
 
   return bubble;
 }
 
 // Function to display the create sites button
 function displayCreateButton() {
+  const overlay = document.getElementById('overlay');
+  overlay.innerHTML = ''; // Clear the overlay
+
   const createButton = document.getElementById('create-button');
   createButton.style.display = 'block';
 }
@@ -40,9 +54,7 @@ function fetchUserSites(username) {
         const siteNames = userSites[username].s;
 
         const overlay = document.getElementById('overlay');
-
-        // Clear the overlay
-        overlay.innerHTML = '';
+        overlay.innerHTML = ''; // Clear the overlay
 
         // Create a bubble for each site
         siteNames.forEach(siteName => {
@@ -54,8 +66,6 @@ function fetchUserSites(username) {
         console.error('Site query string is not empty');
       } else {
         // User is logged in but doesn't have any sites
-        const overlay = document.getElementById('overlay');
-        overlay.innerHTML = '';
         displayCreateButton();
       }
     })
