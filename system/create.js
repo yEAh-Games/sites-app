@@ -1,5 +1,7 @@
-// Function to create a site
-function createSite() {
+// Wrap the code in a DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to create a site
+    function createSite() {
     const siteName = document.getElementById('site-input').value.trim();
   
     if (siteName === '') {
@@ -130,4 +132,4 @@ function createSite() {
   // Add event listener to the create button
   const createSiteButton = document.getElementById('create-site-button');
   createSiteButton.addEventListener('click', createSite);
-  
+});
