@@ -27,13 +27,15 @@ function createBubble(siteName, username) {
 }
 
 // Function to display the create sites button
+// Function to display the create sites button
 function displayCreateButton() {
   const overlay = document.getElementById('overlay');
-  overlay.innerHTML = ''; // Clear the overlay
+  overlay.style.display = 'flex'; // Show the overlay
 
   const createButton = document.getElementById('create-button');
   createButton.style.display = 'block';
 }
+
 
 // Function to check if the site query string is empty
 function isSiteQueryStringEmpty() {
