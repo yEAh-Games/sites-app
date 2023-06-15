@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
             const updatedContent = btoa(JSON.stringify(sitesData));
             const requestBody = {
-              message: 'Created new site:' + siteName,
+              message: 'Created new site: ' + siteName,
               content: updatedContent,
               sha: data.sha,
               branch: 'main'
