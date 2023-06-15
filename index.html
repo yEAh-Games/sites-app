@@ -127,23 +127,21 @@
 </head>
 
 <body>
-  <div id="overlay" style="background-color:#0c0e14!important;z-index:999999!important"
-    class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 rounded-lg">
-      <a style="z-index:99999999999999!important" id="create-button" href="?create=true">
-        <button style="background-color: #ff4747!important;"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Create a site
-        </button>
-      </a>
-    </div>
-    <form id="create-form" style="display: none;">
-      <label for="site-input">Site Name:</label>
-      <input type="text" id="site-input" placeholder="Enter a site name">
-      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63">Create Site</button>
-    </form>
+  <div id="overlay" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div id="create-form-container" class="bg-white p-6 rounded-lg" style="display: none;"></div>
+    <a id="create-button" href="?create=true" style="z-index: 99999999999999!important">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="background-color: #ff4747!important;">
+        Create a site
+      </button>
+    </a>
   </div>
-
+  
+  <form id="create-form" style="display: none;">
+    <label for="site-input">Site Name:</label>
+    <input type="text" id="site-input" placeholder="Enter a site name">
+    <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63">Create Site</button>
+  </form>
+  
   <div id="container">
     <div id="blocklyArea"></div>
     <div id="menubar" style="background-color:#ff4747!important">
