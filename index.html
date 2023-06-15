@@ -6,6 +6,12 @@
   <link rel="icon" href="https://cdn.yeahgames.net/img/branding/logos/default/logo.png">
   <meta content="">
   <meta charset="utf-8">
+  <script>
+    window.addEventListener('load', function () {
+      var loaderOverlay = document.querySelector('.loading-overlay');
+      loaderOverlay.style.display = 'none';
+    });
+  </script>
   <style>
     html,
     body {
@@ -114,6 +120,45 @@
   <script src="blockly/javascript_compressed.js"></script>
   <script src="//cdn.tailwindcss.com"></script>
   <style>
+    .loading {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #0c0e14;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
     .bubble {
       display: inline-block;
       margin: 10px;
@@ -127,6 +172,9 @@
 </head>
 
 <body>
+  <div class="loading-overlay">
+    <div class="loader"></div>
+  </div>
   <div id="overlay" style="background-color:#0c0e14!important;z-index:999999!important"
     class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white p-6 rounded-lg">
@@ -763,15 +811,13 @@
   <script src="/system/main.js">
 
   </script>
-  <script>// Get the form element with the id "create-form"
+  <script>
     const createForm = document.getElementById('create-form');
 
-    // Check if the query parameter "create" is set to "true"
     const queryParams = new URLSearchParams(window.location.search);
     const createParam = queryParams.get('create');
 
     if (createParam === 'true') {
-      // Set the style properties for the overlay
       const overlayStyle = `
         position: fixed;
         top: 0;
@@ -785,31 +831,24 @@
         align-items: center;
       `;
 
-      // Set the style properties for the form
       const formStyle = `
         background-color: #fff;
         padding: 20px;
         border-radius: 5px;
       `;
 
-      // Create the overlay element
       const overlay = document.createElement('div');
       overlay.style.cssText = overlayStyle;
 
-      // Create a wrapper element for the form
       const formWrapper = document.createElement('div');
       formWrapper.style.cssText = formStyle;
 
-      // Append the form to the form wrapper
       formWrapper.appendChild(createForm);
 
-      // Append the form wrapper to the overlay
       overlay.appendChild(formWrapper);
 
-      // Append the overlay to the body
       document.body.appendChild(overlay);
     } else {
-      // Remove the form and its children from the DOM
       createForm.remove();
     }
   </script>
