@@ -122,24 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (createParam === 'true') {
         displayCreateForm();
-        const formContainer = document.createElement('div');
-        formContainer.id = 'create-form-container';
-        formContainer.style.backgroundColor = 'white';
-        formContainer.style.borderRadius = '10px';
-        formContainer.style.position = 'absolute';
-        formContainer.style.top = '0';
-        formContainer.style.left = '0';
-        formContainer.style.right = '0';
-        formContainer.style.bottom = '0';
-        formContainer.style.margin = 'auto';
-        formContainer.style.zIndex = '9999999999999999999';
-        document.body.appendChild(formContainer);
-        document.body.style.overflow = 'hidden';
-    } else {
-        const formContainer = document.getElementById('create-form-container');
-        if (formContainer) {
-            formContainer.remove();
-        }
     }
 
     const createSiteButton = document.getElementById('create-site-button');
