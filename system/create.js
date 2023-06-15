@@ -1,8 +1,11 @@
 // Wrap the code in a DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOMContentLoaded event fired');
+  
     // Function to create a site
-    function createSite() {
+    function createSite(event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+  
       const siteName = document.getElementById('site-input').value.trim();
   
       if (siteName === '') {
@@ -43,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const cnameValue = `${siteName}.ysites.net`;
   
               // Create the repository under the ysites organization
-              fetch(createRepoUrl, {
+              const createRepoPromise = fetch(createRepoUrl, {
                 method: 'POST',
                 headers: {
                   Authorization: `token ${accessToken}`,
@@ -72,40 +75,37 @@ document.addEventListener('DOMContentLoaded', () => {
                   } else {
                     throw new Error('Failed to create the repository');
                   }
-                })
-                .then(response => {
-                  if (response.ok) {
-                    // Update the sites data in the sites repository
-                    const newData = {
-                      [username]: {
-                        s: userSites ? [...userSites[username].s, siteName] : [siteName]
-                      }
-                    };
+                });
   
-                    // Encode the updated data and prepare the request body
-                    const updatedContent = btoa(JSON.stringify([...sitesData, newData]));
-                    const requestBody = {
-                      message: 'Update sites data',
-                      content: updatedContent,
-                      sha: data.sha,
-                      branch: 'main'
-                    };
+              // Update the sites data in the sites repository
+              const newData = {
+                [username]: {
+                  s: userSites ? [...userSites[username].s, siteName] : [siteName]
+                }
+              };
   
-                    // Write the updated sites data to the sites repository
-                    return fetch(sitesDataUrl, {
-                      method: 'PUT',
-                      headers: {
-                        Authorization: `token ${accessToken}`,
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(requestBody)
-                    });
-                  } else {
-                    throw new Error('Failed to create the CNAME file');
-                  }
-                })
+              // Encode the updated data and prepare the request body
+              const updatedContent = btoa(JSON.stringify([...sitesData, newData]));
+              const requestBody = {
+                message: 'Update sites data',
+                content: updatedContent,
+                sha: data.sha,
+                branch: 'main'
+              };
+  
+              // Write the updated sites data to the sites repository
+              const updateSitesDataPromise = fetch(sitesDataUrl, {
+                method: 'PUT',
+                headers: {
+                  Authorization: `token ${accessToken}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+              });
+  
+              // Redirect to the newly created site after all requests are complete
+              Promise.all([createRepoPromise, updateSitesDataPromise])
                 .then(() => {
-                  // Redirect to the newly created site
                   window.location.href = `?site=${siteName}`;
                 })
                 .catch(error => {
@@ -122,21 +122,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
   
-  // Function to display the create form
-  function displayCreateForm() {
-    const createForm = document.getElementById('create-form');
-    createForm.style.display = 'block';
-  }
+    // Function to display the create form
+    function displayCreateForm() {
+      const createForm = document.getElementById('create-form');
+      createForm.style.display = 'block';
+    }
   
-  // Check if create=true is present in the URL param
-  const params = new URLSearchParams(window.location.search);
-  const createParam = params.get('create');
+    // Check if create=true is present in the URL param
+    const params = new URLSearchParams(window.location.search);
+    const createParam = params.get('create');
   
-  if (createParam === 'true') {
-    displayCreateForm();
-  }
+    if (createParam === 'true') {
+      displayCreateForm();
+    }
   
-  // Add event listener to the create button
-  const createSiteButton = document.getElementById('create-site-button');
-  createSiteButton.addEventListener('click', createSite);
-});
+    // Add event listener to the create button
+    const createSiteButton = document.getElementById('create-site-button');
+    createSiteButton.addEventListener('click', createSite);
+  });
+  
