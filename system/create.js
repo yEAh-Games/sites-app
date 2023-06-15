@@ -1,5 +1,6 @@
 // Wrap the code in a DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded event fired');
     // Function to create a site
     function createSite() {
       const siteName = document.getElementById('site-input').value.trim();
