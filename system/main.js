@@ -41,6 +41,9 @@ function fetchUserSites(username) {
 
         const overlay = document.getElementById('overlay');
 
+        // Clear the overlay
+        overlay.innerHTML = '';
+
         // Create a bubble for each site
         siteNames.forEach(siteName => {
           const bubble = createBubble(siteName, username);
@@ -51,6 +54,8 @@ function fetchUserSites(username) {
         console.error('Site query string is not empty');
       } else {
         // User is logged in but doesn't have any sites
+        const overlay = document.getElementById('overlay');
+        overlay.innerHTML = '';
         displayCreateButton();
       }
     })
