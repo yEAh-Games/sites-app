@@ -1,0 +1,19 @@
+Sitemap: https://studio.yeahgames.net/sitemap.xml
+
+User-agent: *
+Disallow: /test
+Disallow: /test.html
+Disallow: /workspace.xml
+Disallow: /workspace
+Disallow: /toolbox
+Disallow: /toolbox.xml
+Disallow: /library_html*
+Disallow: /html_blocks.js
+Disallow: /html_generators.js
+Disallow: /de.js
+Disallow: /en.js
+Disallow: /CNAME
+Disallow: /cdn-cgi
+Disallow: /cdn-cgi/*
+Disallow: /blockly/*
+Disallow: /blockly
