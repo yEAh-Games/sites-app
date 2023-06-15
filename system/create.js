@@ -7,7 +7,7 @@ function createSite() {
       return;
     }
   
-    const accessToken = '<YOUR_GITHUB_ACCESS_TOKEN>'; // Replace with your GitHub access token for creating site repositories
+    const accessToken = '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'; // Replace with your GitHub access token for creating site repositories
     const orgName = 'ysites';
     const sitesRepoOwner = 'yeah-games';
     const sitesRepoName = 'sites';
@@ -129,4 +129,5 @@ function createSite() {
   
   // Add event listener to the create button
   const createSiteButton = document.getElementById('create-site-button');
-  createSiteButton.addEventListener('click', createSite);s
+  createSiteButton.addEventListener('click', createSite);
+  
