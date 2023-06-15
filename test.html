@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create File on GitHub</title>
+</head>
+<body>
+  <button onclick="createFile()">Create File</button>
+
+  <script>
+    async function createFile() {
+      const owner = 'yeah-games';
+      const repo = 'sites';
+      const path = 'test123';
+
+      const token = ds;
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+      const content = ''; // You can provide content for the file here if needed
+
+      const body = {
+        message: 'Create new file',
+        content: btoa(content), // Convert content to base64 encoding
+      };
+
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      };
+
+      try {
+        const response = await fetch(apiUrl, options);
+        if (response.status === 201) {
+          console.log('File created successfully!');
+        } else {
+          console.error('Failed to create file:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+  </script>
+</body>
+</html>

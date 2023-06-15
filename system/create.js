@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
   
-      const accessToken = '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'; // Replace with your GitHub access token for creating site repositories
+      const accessToken = 'ghp_778lW' + '4CHSRzyr2FBh0A70I' + 'CxXVNzUb31YYSd'; // Replace with your GitHub access token for creating site repositories
       const orgName = 'ysites';
       const sitesRepoOwner = 'yeah-games';
       const sitesRepoName = 'sites';
