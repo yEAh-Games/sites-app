@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const siteName = document.getElementById('site-input').value.trim();
 
         if (siteName === '') {
-            alert('Please enter a site name');
+            alert('Please enter a site name!');
             return;
         }
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         })
                                     });
                                 } else {
-                                    throw new Error('Failed to create the repository');
+                                    throw new Error('Failed to create the site container!');
                                 }
                             });
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const updatedContent = btoa(JSON.stringify([...sitesData, newData]));
                         const requestBody = {
-                            message: 'Update sites data',
+                            message: 'Created new site:' + siteName,
                             content: updatedContent,
                             sha: data.sha,
                             branch: 'main'
