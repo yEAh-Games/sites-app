@@ -945,99 +945,102 @@
     let ERWLnL9BCbeIzvdIEn8i = LM4S0ocngnWsZe8EQWAT();
 
     function saveWorkspaceToGithub() {
-      var saveButton = document.getElementById("saveButton");
-      var originalValue = saveButton.value;
-      var loadingAnimation = "...";
-      saveButton.value = loadingAnimation; // Show loading animation
+  var saveButton = document.getElementById("saveButton");
+  var originalValue = saveButton.value;
+  var loadingAnimation = "...";
+  saveButton.value = loadingAnimation; // Show loading animation
 
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var xml_text = Blockly.Xml.domToText(xml);
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  var xml_text = Blockly.Xml.domToText(xml);
 
-      var repoOwner = "yeah-games";
-      var repoName = "sites";
-      var commitMessage = "Save ySite workspace for: " + siteValue;
+  var repoOwner = "yeah-games";
+  var repoName = "sites";
+  var commitMessage = "Save ySite workspace for: " + siteValue;
 
-      var GMYLe = "gMa0YS";
-      var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
-      var Ifxz0 = "YUeSVJ6p9AUJao4H0";
-      var IDraP = "U9B";
-      var DnSS0 = "ohwA44zIvxacuhOW0J";
+  var GMYLe = "gMa0YS";
+  var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
+  var Ifxz0 = "YUeSVJ6p9AUJao4H0";
+  var IDraP = "U9B";
+  var DnSS0 = "ohwA44zIvxacuhOW0J";
 
-      var G9h5YJoj9 = GMYLe.replace("Ma0YS", "");
-      var sZo1uS4IS = iBa5q.replace("X8o9", "_").replace("mux4y", "E");
-      var d4g6syxuT = Ifxz0.replace("9AU", "khc");
-      var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
+  var G9h5YJoj9 = GMYLe.replace("Ma0YS", "");
+  var sZo1uS4IS = iBa5q.replace("X8o9", "_").replace("mux4y", "E");
+  var d4g6syxuT = Ifxz0.replace("9AU", "khc");
+  var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
 
-      var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
-      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba", "4H0U9B");
+  var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
+  var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba", "4H0U9B");
 
-      var content = {
-        message: commitMessage,
-        content: btoa(xml_text),
-      };
+  var content = {
+    message: commitMessage,
+    content: btoa(xml_text),
+  };
 
-      var validatedUserData = validateUserDataFromCookie();
-      if (!validatedUserData) {
-        console.log('User is not logged in. Save operation aborted.');
-        return;
-      }
+  var validatedUserData = validateUserDataFromCookie();
+  if (!validatedUserData) {
+    console.log('User is not logged in. Save operation aborted.');
+    return;
+  }
 
-      var validatedUsername = validatedUserData.username;
-      var filePath = "data/editor/saves/" + siteValue + "_index.html.yg";
+  var validatedUsername = validatedUserData.username;
+  var filePath = "data/editor/saves/" + siteValue + "_index.html.yg";
 
-      let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
+  let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
-      fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-        headers: {
-          "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
-        }
-      })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else if (response.status === 404) {
-            // File not found, proceed to create it
-            return Promise.resolve(null);
-          } else {
-            throw new Error("Failed to check file existence: " + response.status);
-          }
-        })
-        .then(existingFile => {
-          if (existingFile) {
-            // File exists, skip the creation
-            return Promise.resolve();
-          }
-          return Promise.resolve();
-        })
-        .then(() => {
-          // Add or update the file
-          const method = existingFile ? "PATCH" : "PUT";
-          return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-            method: method,
-            headers: {
-              "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(content)
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            console.log("Block workspace saved to database successfully");
-            saveButton.value = "Save complete!"; // Show "Save complete!" message
-            setTimeout(function () {
-              saveButton.value = originalValue; // Fade back to original value
-            }, 2000);
-          } else {
-            console.error("Failed to save data to GitHub:", response.status);
-          }
-        })
-        .catch(error => {
-          console.error("Error saving data to GitHub:", error);
-        });
+  var existingFile; // Declare existingFile variable
+
+  fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+    headers: {
+      "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
     }
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 404) {
+        // File not found, proceed to create it
+        return Promise.resolve(null);
+      } else {
+        throw new Error("Failed to check file existence: " + response.status);
+      }
+    })
+    .then(file => {
+      existingFile = file; // Store existing file in the outer scope
+      if (existingFile) {
+        // File exists, skip the creation
+        return Promise.resolve();
+      }
+      return Promise.resolve();
+    })
+    .then(() => {
+      // Add or update the file
+      const method = existingFile ? "PATCH" : "PUT";
+      return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+        method: method,
+        headers: {
+          "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(content)
+      });
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log("Block workspace saved to database successfully");
+        saveButton.value = "Save complete!"; // Show "Save complete!" message
+        setTimeout(function () {
+          saveButton.value = originalValue; // Fade back to original value
+        }, 2000);
+      } else {
+        console.error("Failed to save data to GitHub:", response.status);
+      }
+    })
+    .catch(error => {
+      console.error("Error saving data to GitHub:", error);
+    });
+}
 
-    document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
 
 
 
