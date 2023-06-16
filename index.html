@@ -986,8 +986,6 @@
 
   let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
-  var existingFile; // Declare existingFile variable
-
   fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
     headers: {
       "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
@@ -995,42 +993,22 @@
   })
     .then(response => {
       if (response.ok) {
-        return response.json();
-      } else if (response.status === 404) {
-        // File not found, proceed to create it
-        return Promise.resolve(null);
-      } else {
-        throw new Error("Failed to check file existence: " + response.status);
-      }
-    })
-    .then(file => {
-      existingFile = file; // Store existing file in the outer scope
-      if (existingFile) {
         // File exists, delete it before re-adding
-        return fetch(existingFile.url, {
+        return fetch(response.url, {
           method: "DELETE",
           headers: {
             "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-            "Accept": "application/vnd.github.v3+json", // Add this header
-            "Content-Type": "application/json" // Add this header
-          },
-          body: JSON.stringify({
-            message: "Delete file: " + filePath,
-            sha: existingFile.sha, // Add this line to include the file's SHA
-          })
-        }).then(response => {
-          if (!response.ok) {
-            throw new Error("Failed to delete existing file: " + response.status);
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
           }
         });
       }
       return Promise.resolve();
     })
     .then(() => {
-      // Add or update the file
-      const method = existingFile ? "PATCH" : "PUT";
+      // Create the file
       return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-        method: method,
+        method: "PUT",
         headers: {
           "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
           "Content-Type": "application/json"
@@ -1055,6 +1033,7 @@
 }
 
 document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 
