@@ -1011,11 +1011,11 @@
             "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
           }
         })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Failed to delete existing file: " + response.status);
-          }
-        });
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Failed to delete existing file: " + response.status);
+            }
+          });
       }
       return Promise.resolve();
     })
@@ -1031,11 +1031,11 @@
       });
     })
     .then(response => {
-      if (response.ok) {
-        console.log("Block workspace saved to database successfully");
+      if (response.ok || response.status === 201) {
+        console.log("Block workspace saved to the database successfully");
         saveButton.value = "Save complete!"; // Show "Save complete!" message
         setTimeout(function () {
-          saveButton.value = originalValue; // Fade back to original value
+          saveButton.value = originalValue; // Fade back to the original value
         }, 2000);
       } else {
         throw new Error("Failed to save data to GitHub: " + response.status);
