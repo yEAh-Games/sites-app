@@ -986,7 +986,7 @@
 
   let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
-  var existingFile; // Declare existingFile variable
+  var existingFile;
 
   fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
     headers: {
@@ -997,39 +997,35 @@
       if (response.ok) {
         return response.json();
       } else if (response.status === 404) {
-        // File not found, proceed to create it
         return Promise.resolve(null);
       } else {
         throw new Error("Failed to check file existence: " + response.status);
       }
     })
     .then(file => {
-      existingFile = file; // Store existing file in the outer scope
+      existingFile = file; 
       if (existingFile) {
-        // File exists, delete it before re-adding
         return fetch(existingFile.url, {
           method: "DELETE",
           headers: {
             "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-            "Accept": "application/vnd.github.v3+json", // Add this header
-            "Content-Type": "application/json" // Add this header
+            "Accept": "application/vnd.github.v3+json", 
+            "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            message: "Delete file: " + filePath,
-            sha: existingFile.sha, // Add this line to include the file's SHA
+            message: "Delete old save file for:  " + siteValue,
+            sha: existingFile.sha, 
           })
         }).then(response => {
           if (!response.ok) {
-            throw new Error("Failed to delete existing file: " + response.status);
+            throw new Error("Failed to delete existing save: " + response.status);
           }
-          // Wait for a few seconds before adding the new content
           return new Promise(resolve => setTimeout(resolve, 3000));
         });
       }
       return Promise.resolve();
     })
     .then(() => {
-      // Create the file
       return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
         method: "PUT",
         headers: {
@@ -1042,29 +1038,23 @@
     .then(response => {
       if (response.ok) {
         console.log("Block workspace saved to database successfully");
-        saveButton.value = "Save complete!"; // Show "Save complete!" message
+        saveButton.value = "Save complete!"; 
         setTimeout(function () {
-          saveButton.value = originalValue; // Fade back to original value
+          saveButton.value = originalValue;
         }, 2000);
       } else {
-        console.error("Failed to save data to GitHub:", response.status);
+        console.error("Failed to save data to database:", response.status);
       }
     })
     .catch(error => {
-      console.error("Error saving data to GitHub:", error);
+      console.error("Error saving data to databse:", error);
     });
 }
 
 document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
 
 
-
-
-
-
-
-
-
+// next
 
     function saveHtmlToDownload() {
       var code = HtmlGenerator.workspaceToCode(workspace);
