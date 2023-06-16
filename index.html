@@ -196,9 +196,11 @@
       </a>
     </div>
     <form id="create-form" style="display: none;">
-      <label for="site-input">Site Name:</label>
-      <input type="text" id="site-input" placeholder="Enter a site name">
-      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63"
+      <input type="text" id="site-input" placeholder="Enter a site name"
+        style="background-color: #0c0e14; color: #ff4747; border-radius: 0.5rem;/*! padding-left: 20px!importnat; */padding-left: 20px;padding: 9px;border-color: #ff4747;border-width: 1px;">&#160;&#160;
+      <button
+        style="background-color: #ff4747;padding: 9px;border-radius: 0.5em;border-width: 3px;border-color: #0c0e14;color: #0c0e14;font-weight: bolder;"
+        id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63"
         onclick="this.disabled = true;this.classList.add('slow-down')">Create site</button>
     </form>
   </div>
@@ -227,8 +229,7 @@
     </div>
     <div id="title">Untitled yEAh Site</div>
     <div id="websiteFrame"><iframe id="website"></iframe></div>
-    <pre id="sourcecode" class="html" title="Edit your HTML manually before publishing."
-      contenteditable>No content loaded</pre>
+    <pre id="sourcecode" class="html" title="Your block code compiled to HTML.">No content loaded</pre>
 
   </div>
 
@@ -844,7 +845,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: #0c0e14;
         z-index: 99999999999999999999;
         display: flex;
         justify-content: center;
@@ -944,81 +945,104 @@
     let ERWLnL9BCbeIzvdIEn8i = LM4S0ocngnWsZe8EQWAT();
 
     function saveWorkspaceToGithub() {
-      var saveButton = document.getElementById("saveButton");
-      var originalValue = saveButton.value;
-      var loadingAnimation = "...";
-      saveButton.value = loadingAnimation; // Show loading animation
+  var saveButton = document.getElementById("saveButton");
+  var originalValue = saveButton.value;
+  var loadingAnimation = "...";
+  saveButton.value = loadingAnimation; // Show loading animation
 
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var xml_text = Blockly.Xml.domToText(xml);
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  var xml_text = Blockly.Xml.domToText(xml);
 
-      var repoOwner = "yeah-games";
-      var repoName = "sites";
-      var commitMessage = "Save ySite workspace for: " + siteValue;
+  var repoOwner = "yeah-games";
+  var repoName = "sites";
+  var commitMessage = "Save ySite workspace for: " + siteValue;
 
-      var GMYLe = "gMa0YS";
-      var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
-      var Ifxz0 = "YUeSVJ6p9AUJao4H0";
-      var IDraP = "U9B";
-      var DnSS0 = "ohwA44zIvxacuhOW0J";
+  var GMYLe = "gMa0YS";
+  var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
+  var Ifxz0 = "YUeSVJ6p9AUJao4H0";
+  var IDraP = "U9B";
+  var DnSS0 = "ohwA44zIvxacuhOW0J";
 
-      var G9h5YJoj9 = GMYLe.replace("Ma0YS", "");
-      var sZo1uS4IS = iBa5q.replace("X8o9", "_").replace("mux4y", "E");
-      var d4g6syxuT = Ifxz0.replace("9AU", "khc");
-      var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
+  var G9h5YJoj9 = GMYLe.replace("Ma0YS", "");
+  var sZo1uS4IS = iBa5q.replace("X8o9", "_").replace("mux4y", "E");
+  var d4g6syxuT = Ifxz0.replace("9AU", "khc");
+  var HTNNMZ2Cv = DnSS0.replace(DnSS0, "dYNbNwFvg2");
 
-      var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
-      var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba", "4H0U9B");
+  var w01bi = G9h5YJoj9 + sZo1uS4IS + d4g6syxuT + IDraP + HTNNMZ2Cv;
+  var Tm8WGII94E2t94CvKpmH = w01bi.replace("dYNbNwFvg2", LM4S0ocngnWsZe8EQWAT).replace("4H0U9Ba", "4H0U9B");
 
-      var content = {
-        message: commitMessage,
-        content: btoa(xml_text),
-      };
+  var content = {
+    message: commitMessage,
+    content: btoa(xml_text),
+  };
 
-      var validatedUserData = validateUserDataFromCookie();
-      if (!validatedUserData) {
-        console.log('User is not logged in. Save operation aborted.');
-        return;
-      }
+  var validatedUserData = validateUserDataFromCookie();
+  if (!validatedUserData) {
+    console.log('User is not logged in. Save operation aborted.');
+    return;
+  }
 
-      var validatedUsername = validatedUserData.username;
-      var filePath = "data/editor/saves/" + siteValue + "_index.html.yg";
+  var validatedUsername = validatedUserData.username;
+  var filePath = "data/editor/saves/" + siteValue + "_index.html.yg";
 
-      let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
+  let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
-      fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-        headers: {
-          "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
-        }
-      })
-        .then(response => response.json())
-        .then(() => {
-          return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-            method: "PUT",
-            headers: {
-              "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(content)
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            console.log("Block workspace saved to database successfully");
-            saveButton.value = "Save complete!"; // Show "Save complete!" message
-            setTimeout(function () {
-              saveButton.value = originalValue; // Fade back to original value
-            }, 2000);
-          } else {
-            console.error("Failed to save data to GitHub:", response.status);
-          }
-        })
-        .catch(error => {
-          console.error("Error saving data to GitHub:", error);
-        });
+  fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+    headers: {
+      "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
     }
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 404) {
+        // File not found, proceed to create it
+        return Promise.resolve(null);
+      } else {
+        throw new Error("Failed to check file existence: " + response.status);
+      }
+    })
+    .then(existingFile => {
+      if (existingFile) {
+        // File exists, delete it before re-adding
+        return fetch(existingFile.url, {
+          method: "DELETE",
+          headers: {
+            "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
+          }
+        });
+      }
+      return Promise.resolve();
+    })
+    .then(() => {
+      // Add the file
+      return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(content)
+      });
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log("Block workspace saved to database successfully");
+        saveButton.value = "Save complete!"; // Show "Save complete!" message
+        setTimeout(function () {
+          saveButton.value = originalValue; // Fade back to original value
+        }, 2000);
+      } else {
+        console.error("Failed to save data to GitHub:", response.status);
+      }
+    })
+    .catch(error => {
+      console.error("Error saving data to GitHub:", error);
+    });
+}
 
-    document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 

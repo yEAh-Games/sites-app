@@ -17,17 +17,15 @@ function createBubble(siteName, username) {
   bubble.appendChild(usernameElement);
 
   bubble.addEventListener('click', () => {
-    window.location.href = siteLink.href; // Redirect to the site URL
+    window.location.href = siteLink.href;
     setTimeout(() => {
-      window.location.reload(); // Refresh the page to clear the overlay
-    }, 500); // Adjust the delay as needed
+      window.location.reload(); 
+    }, 500); 
   });
 
   return bubble;
 }
 
-// Function to display the create sites button
-// Function to display the create sites button
 function displayCreateButton() {
   const overlay = document.getElementById('overlay');
   overlay.style.display = 'flex'; // Show the overlay
