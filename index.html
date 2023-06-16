@@ -1029,10 +1029,9 @@
       return Promise.resolve();
     })
     .then(() => {
-      // Add or update the file
-      const method = existingFile ? "PATCH" : "PUT";
+      // Create the file
       return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-        method: method,
+        method: "PUT",
         headers: {
           "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
           "Content-Type": "application/json"
