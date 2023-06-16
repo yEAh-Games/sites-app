@@ -944,12 +944,17 @@
     let ERWLnL9BCbeIzvdIEn8i = LM4S0ocngnWsZe8EQWAT();
 
     function saveWorkspaceToGithub() {
+      var saveButton = document.getElementById("saveButton");
+      var originalValue = saveButton.value;
+      var loadingAnimation = "...";
+      saveButton.value = loadingAnimation; // Show loading animation
+
       var xml = Blockly.Xml.workspaceToDom(workspace);
       var xml_text = Blockly.Xml.domToText(xml);
 
       var repoOwner = "yeah-games";
       var repoName = "sites";
-      var commitMessage = "Save site workspace data for:" + siteValue;
+      var commitMessage = "Save ySite workspace for: " + siteValue;
 
       var GMYLe = "gMa0YS";
       var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
@@ -1000,6 +1005,10 @@
         .then(response => {
           if (response.ok) {
             console.log("Block workspace saved to database successfully");
+            saveButton.value = "Save complete!"; // Show "Save complete!" message
+            setTimeout(function () {
+              saveButton.value = originalValue; // Fade back to original value
+            }, 2000);
           } else {
             console.error("Failed to save data to GitHub:", response.status);
           }
@@ -1010,6 +1019,7 @@
     }
 
     document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 
