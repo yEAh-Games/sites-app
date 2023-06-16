@@ -986,72 +986,76 @@
 
   let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
-
   var existingFile; // Declare existingFile variable
 
-fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-  headers: {
-    "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
-  }
-})
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else if (response.status === 404) {
-      // File not found, proceed to create it
-      return Promise.resolve(null);
-    } else {
-      throw new Error("Failed to check file existence: " + response.status);
+  fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+    headers: {
+      "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
     }
   })
-  .then(file => {
-    existingFile = file; // Store existing file in the outer scope
-    if (existingFile) {
-      // File exists, delete it before re-adding
-      return fetch(existingFile.url, {
-        method: "DELETE",
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 404) {
+        // File not found, proceed to create it
+        return Promise.resolve(null);
+      } else {
+        throw new Error("Failed to check file existence: " + response.status);
+      }
+    })
+    .then(file => {
+      existingFile = file; // Store existing file in the outer scope
+      if (existingFile) {
+        // File exists, delete it before re-adding
+        return fetch(existingFile.url, {
+          method: "DELETE",
+          headers: {
+            "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
+            "Accept": "application/vnd.github.v3+json", // Add this header
+            "Content-Type": "application/json" // Add this header
+          },
+          body: JSON.stringify({
+            message: "Delete file: " + filePath,
+            sha: existingFile.sha, // Add this line to include the file's SHA
+          })
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error("Failed to delete existing file: " + response.status);
+          }
+        });
+      }
+      return Promise.resolve();
+    })
+    .then(() => {
+      // Add or update the file
+      const method = existingFile ? "PATCH" : "PUT";
+      return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
+        method: method,
         headers: {
           "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-          "Accept": "application/vnd.github.v3+json" // Add this header
-        }
-      }).then(response => {
-        if (!response.ok) {
-          throw new Error("Failed to delete existing file: " + response.status);
-        }
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(content)
       });
-    }
-    return Promise.resolve();
-  })
-  .then(() => {
-    // Add or update the file
-    const method = existingFile ? "PATCH" : "PUT";
-    return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-      method: method,
-      headers: {
-        "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(content)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log("Block workspace saved to database successfully");
+        saveButton.value = "Save complete!"; // Show "Save complete!" message
+        setTimeout(function () {
+          saveButton.value = originalValue; // Fade back to original value
+        }, 2000);
+      } else {
+        console.error("Failed to save data to GitHub:", response.status);
+      }
+    })
+    .catch(error => {
+      console.error("Error saving data to GitHub:", error);
     });
-  })
-  .then(response => {
-    if (response.ok) {
-      console.log("Block workspace saved to database successfully");
-      saveButton.value = "Save complete!"; // Show "Save complete!" message
-      setTimeout(function () {
-        saveButton.value = originalValue; // Fade back to original value
-      }, 2000);
-    } else {
-      console.error("Failed to save data to GitHub:", response.status);
-    }
-  })
-  .catch(error => {
-    console.error("Error saving data to GitHub:", error);
-  });
-  
 }
 
 document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 
