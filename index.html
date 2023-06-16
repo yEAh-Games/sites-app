@@ -169,7 +169,10 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    .slow-down{cursor:not-allowed}
+
+    .slow-down {
+      cursor: not-allowed
+    }
   </style>
 </head>
 </head>
@@ -195,7 +198,8 @@
     <form id="create-form" style="display: none;">
       <label for="site-input">Site Name:</label>
       <input type="text" id="site-input" placeholder="Enter a site name">
-      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63" onclick="this.disabled = true;this.classList.add('slow-down')">Create site</button>
+      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63"
+        onclick="this.disabled = true;this.classList.add('slow-down')">Create site</button>
     </form>
   </div>
 
@@ -204,7 +208,7 @@
     <div id="blocklyArea"></div>
     <div id="menubar" style="background-color:#ff4747!important">
       <div><span id="saveText"></span> <input
-          style="background-color: #0c0e14;color: #ff4747;padding: 5px;border-radius: 8px;padding-left: 10px;padding-right: 10px;right: 0px;position: absolute;margin-right: 10px;font-weight: bolder;"
+          style="cursor:pointer;background-color: #0c0e14;color: #ff4747;padding: 5px;border-radius: 8px;padding-left: 10px;padding-right: 10px;right: 0px;position: absolute;margin-right: 10px;font-weight: bolder;"
           type="button" value="Publish your site" title="Save, deploy and publish your site to the web."
           id="saveButton" /></div>
       <div style="display:none!important"><span id="loadText"></span> <input type="file" id="fileButton"
@@ -822,6 +826,12 @@
 
   </script>
   <script>
+    function getSiteFromQueryString() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('site');
+    }
+    const siteValue = getSiteFromQueryString();
+
     const createForm = document.getElementById('create-form');
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -939,7 +949,7 @@
 
       var repoOwner = "yeah-games";
       var repoName = "sites";
-      var commitMessage = "Save site workspace data";
+      var commitMessage = "Save site workspace data for:" + siteValue;
 
       var GMYLe = "gMa0YS";
       var iBa5q = "hpX8o9mux4ynw0sCJLL91RGPPQ";
@@ -967,7 +977,7 @@
       }
 
       var validatedUsername = validatedUserData.username;
-      var filePath = "data/editor/saves/" + validatedUsername + "_index.html.yg";
+      var filePath = "data/editor/saves/" + siteValue + "_index.html.yg";
 
       let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
