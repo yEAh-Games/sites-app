@@ -943,7 +943,6 @@
     }
 
     let ERWLnL9BCbeIzvdIEn8i = LM4S0ocngnWsZe8EQWAT();
-
     function saveWorkspaceToGithub() {
   var saveButton = document.getElementById("saveButton");
   var originalValue = saveButton.value;
@@ -1007,8 +1006,17 @@
     .then(file => {
       existingFile = file; // Store existing file in the outer scope
       if (existingFile) {
-        // File exists, skip the creation
-        return Promise.resolve();
+        // File exists, delete it before re-adding
+        return fetch(existingFile.url, {
+          method: "DELETE",
+          headers: {
+            "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
+          }
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error("Failed to delete existing file: " + response.status);
+          }
+        });
       }
       return Promise.resolve();
     })
@@ -1041,6 +1049,7 @@
 }
 
 document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 
