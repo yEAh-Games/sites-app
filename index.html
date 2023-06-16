@@ -169,6 +169,7 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .slow-down{cursor:not-allowed}
   </style>
 </head>
 </head>
@@ -194,7 +195,7 @@
     <form id="create-form" style="display: none;">
       <label for="site-input">Site Name:</label>
       <input type="text" id="site-input" placeholder="Enter a site name">
-      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63">Create Site</button>
+      <button id="create-site-button" pattern="[a-z0-9.-]+" maxlength="63" onclick="this.disabled = true;this.classList.add('slow-down')">Create site</button>
     </form>
   </div>
 
