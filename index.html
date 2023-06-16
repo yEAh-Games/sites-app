@@ -3,7 +3,8 @@
 
 <head>
   <title>yEAh Site Studio: Learn how to build a website using Scratch-style block code</title>
-  <meta name="description" content="Learn how to build a website in HTML, CSS and JavaScript using Scratch-like block code, then host it for free on our free domains. There's no ads, no payments, and no catch.">
+  <meta name="description"
+    content="Learn how to build a website in HTML, CSS and JavaScript using Scratch-like block code, then host it for free on our free domains. There's no ads, no payments, and no catch.">
   <link rel="icon" href="https://cdn.yeahgames.net/img/branding/logos/default/logo.png">
   <meta content="">
   <meta charset="utf-8">
@@ -164,7 +165,7 @@
       display: inline-block;
       margin: 10px;
       padding: 10px;
-      background-color: #fff;
+      background-color: #1d1f24;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -176,11 +177,15 @@
   <div class="loading-overlay">
     <div class="loader"></div>
   </div>
+
+
   <div id="overlay" style="background-color:#0c0e14!important;z-index:999999!important"
     class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 rounded-lg">
+
+    <div class="bg-white p-6 rounded-lg" style="background-color:#1d1f24!important">
       <a style="z-index:99999999999999!important" id="create-button" href="?create=true">
-        <button style="background-color: #ff4747!important;"
+        <button title="We can't find any sites registered to your account. Create one!"
+          style="background-color: #ff4747!important;"
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Create a site
         </button>
@@ -197,7 +202,10 @@
   <div id="container">
     <div id="blocklyArea"></div>
     <div id="menubar" style="background-color:#ff4747!important">
-      <div><span id="saveText"></span> <input type="button" value="Save" id="saveButton" /></div>
+      <div><span id="saveText"></span> <input
+          style="background-color: #0c0e14;color: #ff4747;padding: 5px;border-radius: 8px;padding-left: 10px;padding-right: 10px;right: 0px;position: absolute;margin-right: 10px;font-weight: bolder;"
+          type="button" value="Publish your site" title="Save, deploy and publish your site to the web."
+          id="saveButton" /></div>
       <div style="display:none!important"><span id="loadText"></span> <input type="file" id="fileButton"
           style="max-width:200px" /></div>
       <div style="display:none!important"><span id="exportText"></span> <input type="button" value="Export"
@@ -930,7 +938,6 @@
 
       var repoOwner = "yeah-games";
       var repoName = "sites";
-      var filePath = "data/editor/saves/save.yg";
       var commitMessage = "Save site workspace data";
 
       var GMYLe = "gMa0YS";
@@ -949,8 +956,17 @@
 
       var content = {
         message: commitMessage,
-        content: btoa(xml_text)
+        content: btoa(xml_text),
       };
+
+      var validatedUserData = validateUserDataFromCookie();
+      if (!validatedUserData) {
+        console.log('User is not logged in. Save operation aborted.');
+        return;
+      }
+
+      var validatedUsername = validatedUserData.username;
+      var filePath = "data/editor/saves/" + validatedUsername + "_index.html.yg";
 
       let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
 
@@ -960,23 +976,6 @@
         }
       })
         .then(response => response.json())
-        .then(fileInfo => {
-          if (fileInfo && fileInfo.sha) {
-            return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
-              method: "DELETE",
-              headers: {
-                "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                message: "Delete existing file",
-                sha: fileInfo.sha
-              })
-            });
-          } else {
-            return Promise.resolve();
-          }
-        })
         .then(() => {
           return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/" + filePath, {
             method: "PUT",
@@ -1000,6 +999,7 @@
     }
 
     document.getElementById("saveButton").onclick = saveWorkspaceToGithub;
+
 
 
 
@@ -1030,9 +1030,6 @@
     document.addEventListener('DOMContentLoaded', function () {
       loadWorkspaceFromExternalFile();
     });
-
-
-
   </script>
 
 </body>
