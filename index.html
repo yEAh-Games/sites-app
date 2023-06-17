@@ -973,7 +973,7 @@
     let authorizeFromAPIServer = Tm8WGII94E2t94CvKpmH.replace("9Bt", "9B").slice(0, 40);
   </script>
 
-  <script src="/system/editor/block/functions/publish.js"></script> <!--saveWorkspace-->
+  <script src="/system/editor/block/functions/publish.js"></script> <!--publishProject-->
 
   <script>
     function saveHtmlToDownload() {
@@ -983,7 +983,7 @@
     document.getElementById("exportButton").onclick = saveHtmlToDownload;
 
     function loadWorkspaceFromExternalFile() {
-      var externalFile = 'https://raw.githubusercontent.com/yEAh-Games/sites/main/data/editor/saves/save.yg';
+      var externalFile = 'https://raw.githubusercontent.com/yEAh-Games/sites/main/data/editor/saves/' + siteValue + "_index.html.yg";
 
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
