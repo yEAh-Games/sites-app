@@ -77,7 +77,7 @@ function saveWorkspaceToGithub() {
       });
   
     // Group 2: Delete and create index.html file
-    var getIndexFile = fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/ysites/" + siteValue + "/index.html", {
+    var getIndexFile = fetch("https://api.github.com/repos/ysites" + "/" + siteValue + "/contents" + "/index.html", {
       headers: {
         "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40)
       }
@@ -115,7 +115,7 @@ function saveWorkspaceToGithub() {
         return Promise.resolve();
       })
       .then(() => {
-        return fetch("https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contents/ysites/" + siteValue + "/index.html", {
+        return fetch("https://api.github.com/repos/ysites" + "/" + siteValue + "/contents" + "/index.html", {
           method: "PUT",
           headers: {
             "Authorization": "Bearer " + authorizeFromAPIServer.slice(0, 40),
